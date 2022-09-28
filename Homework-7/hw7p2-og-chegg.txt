@@ -1,0 +1,118 @@
+#include<stdio.h> 
+#include<stdlib.h> 
+#include<curses.h>
+/* structure for a Node */
+struct Node 
+{ 
+        int data; 
+        struct Node *next; 
+}; 
+
+/* Function to insert a Node at the beginning of a linked list */
+struct Node*insf(struct Node*start,int item); 
+
+/* Function to bubble sort the given linked list */
+void bubbleSort(struct Node *start); 
+
+/* Function to swap data of two Nodes a and b*/
+void swap(struct Node *a, struct Node *b); 
+
+/* Function to print Nodes in a given linked list */
+void printList(struct Node *start); 
+
+int main() 
+{ 
+        int i,item,n=0;
+        struct Node*start;
+start=(struct Node*)malloc(sizeof(struct Node));
+start->next=NULL;
+while(item!=-1){
+   printf("Enter the Element: ");
+                       scanf("%d",&item);
+                      if(item==-1){
+                           break; /*adding EOF just mess up the code to give an infinite loop. Here instead of EOF or ctrl-d I used -1 to know when user had entered all elements to linkedlist.
+even though its not the required format the logic works same As EOF is a macro with value -1*/
+                          }
+               else{
+                    if(n==0){
+                             start->data=item;
+                             }
+                    insf(start,item);
+                    n++;
+               }
+        }
+        /* print list before sorting */
+        printf("\n Linked list before sorting "); 
+        printList(start); 
+
+        /* sort the linked list */
+        bubbleSort(start); 
+
+        /* print list after sorting */
+        printf("\n Linked list after sorting "); 
+        printList(start); 
+
+        getch(); 
+} 
+
+
+/* Function to insert a Node at the beginning of a linked list */
+struct Node*insf(struct Node*start,int item)
+{
+        struct Node*newNode;
+        newNode=(struct Node*)malloc(sizeof(struct Node));
+        newNode->data=item;
+        newNode->next=start->next;
+        start->next=newNode;
+        return start;
+}
+
+/* Function to print Nodes in a given linked list */
+void printList(struct Node *start) 
+{ 
+        struct Node *temp = start; 
+        printf("\n"); 
+        while (temp!=NULL) 
+        { 
+                printf("%d ", temp->data); 
+                temp = temp->next; 
+        } 
+} 
+
+/* Bubble sort the given linked list */
+void bubbleSort(struct Node *start) 
+{ 
+        int swapped, i; 
+        struct Node *ptr1; 
+        struct Node *lptr = NULL; 
+
+        /* Checking for empty list */
+        if (start == NULL) 
+                return; 
+
+        do
+        { 
+                swapped = 0; 
+                ptr1 = start; 
+
+                while (ptr1->next != lptr) 
+                { 
+                        if (ptr1->data > ptr1->next->data) 
+                        { 
+                                swap(ptr1, ptr1->next); 
+                                swapped = 1; 
+                        } 
+                        ptr1 = ptr1->next; 
+                } 
+                lptr = ptr1; 
+        } 
+        while (swapped); 
+} 
+
+/* function to swap data of two Nodes a and b*/
+void swap(struct Node *a, struct Node *b) 
+{ 
+        int temp = a->data; 
+        a->data = b->data; 
+        b->data = temp; 
+} 
